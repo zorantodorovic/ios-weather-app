@@ -12,23 +12,22 @@ import Alamofire
 class CurrentWeather {
     var cityName = ""
     var weatherType = ""
-    var date = ""
     var currentTemp: Double!
     
-    var _currentTemp: Double {
-        if  currentTemp == nil {
-            currentTemp = Double(0)
+    var todayDate: String {
+        get {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd.MM.yyyy"
+            return dateFormatter.string(from: Date())
         }
-        return currentTemp
     }
+
+    func getCurrentWeather(completed: @escaping DownloadComplete) {
     
-    func getCurrentWeather(completed: DownloadComplete) {
-        
         let weatherURL = URL(string: currentWeatherURL)!
         
         Alamofire.request(weatherURL).responseJSON { response in
             if let JSON = response.result.value {
-                
                 if let dict = JSON as? Dictionary<String, AnyObject> {
                     if let name = dict["name"] as? String {
                         self.cityName = name.capitalized
@@ -43,14 +42,14 @@ class CurrentWeather {
                     
                     if let main = dict["main"] as? Dictionary<String, AnyObject> {
                         if let currentTemperature = main["temp"] as? Double {
-                            self.currentTemp = currentTemperature - 273.15
+                            self.currentTemp = ceil(currentTemperature - 273.15)
                         }
                     }
+                    
                 }
             }
+            completed()
         }
-        completed()
     }
-    
     
 }

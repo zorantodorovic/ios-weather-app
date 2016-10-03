@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class WeatherViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -18,20 +19,41 @@ class WeatherViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet var todayCityLabel: UILabel!
     @IBOutlet var tableView: UITableView!
     
+    var currentWeather: CurrentWeather!
+    var forecast: Forecast!
+    var forecastArray = [Forecast]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
         
-        CurrentWeather().getCurrentWeather {
-            print("bravo")
+        currentWeather = CurrentWeather()
+        currentWeather.getCurrentWeather {
+            self.updateUI()
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func getForecastData(completed: DownloadComplete) -> Void {
+        let forecastURL = URL(string: FORECAST_URL)
+        
+        Alamofire.request(forecastURL!).responseJSON { response in
+            let result = response.result
+            
+            if let dict = result.value as? Dictionary<String, AnyObject> {
+                
+                if let list = dict["list"] as? [Dictionary<String, AnyObject>] {
+                    print(list)
+                    
+                    for obj in list {
+                        let forecast = Forecast(weatherDict: obj)
+                        self.forecastArray.append(forecast)
+                    }
+                }
+            }
+            
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -45,6 +67,14 @@ class WeatherViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         return cell
+    }
+    
+    func updateUI() {
+        todayTemperatureLabel.text = "\(currentWeather.currentTemp.description) °C"
+        todayWeatherTypeLabel.text = currentWeather.weatherType
+        todayCityLabel.text = currentWeather.cityName
+        todayDateLabel.text = "Today, \(currentWeather.todayDate)"
+        todayImageView.image = UIImage(named: "\(currentWeather.weatherType)")
     }
 
 
