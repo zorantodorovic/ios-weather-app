@@ -72,7 +72,7 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TdM-LO-Hki">
                                         <color key="backgroundColor" white="0.94964912716223271" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" rowHeight="80" id="2Fy-cV-ff5">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" rowHeight="80" id="2Fy-cV-ff5" customClass="WeatherCell" customModule="ios_weather_app" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Fy-cV-ff5" id="gVk-2l-oWM">
@@ -135,6 +135,13 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <connections>
+                                                    <outlet property="cellDayLabel" destination="ac9-KY-4nC" id="dYr-ZL-Qxc"/>
+                                                    <outlet property="cellHighTemp" destination="zs9-L6-270" id="mZw-ml-UqB"/>
+                                                    <outlet property="cellImageView" destination="ruv-Ql-zbU" id="Jv6-eP-9z1"/>
+                                                    <outlet property="cellLowTemp" destination="oWo-Oo-aX3" id="FQP-ZD-bY9"/>
+                                                    <outlet property="cellWeatherType" destination="Xg0-Um-HGz" id="NHw-RF-4eY"/>
+                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
