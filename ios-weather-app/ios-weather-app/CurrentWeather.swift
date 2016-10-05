@@ -23,10 +23,12 @@ class CurrentWeather {
     }
 
     func getCurrentWeather(completed: @escaping DownloadComplete) {
-    
-        let weatherURL = URL(string: currentWeatherURL)!
-        
-        Alamofire.request(weatherURL).responseJSON { response in
+        let parameters: Parameters = [
+            "lat": Location.sharedInstance.latitude,
+            "lon": Location.sharedInstance.longitude,
+            "appId": apiKey
+        ]
+        Alamofire.request("http://api.openweathermap.org/data/2.5/weather", method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseJSON { response in
             if let JSON = response.result.value {
                 if let dict = JSON as? Dictionary<String, AnyObject> {
                     if let name = dict["name"] as? String {
@@ -50,6 +52,7 @@ class CurrentWeather {
             }
             completed()
         }
+
     }
     
 }
