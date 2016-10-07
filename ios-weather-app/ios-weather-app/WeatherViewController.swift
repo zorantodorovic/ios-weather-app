@@ -68,7 +68,6 @@ class WeatherViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         } else {
             locationManager.requestWhenInUseAuthorization()
-            locationAuthStatus()
         }
     }
 

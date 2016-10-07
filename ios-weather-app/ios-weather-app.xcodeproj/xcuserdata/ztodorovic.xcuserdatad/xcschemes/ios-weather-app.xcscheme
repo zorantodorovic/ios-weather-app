@@ -71,8 +71,8 @@
       <AdditionalOptions>
       </AdditionalOptions>
       <LocationScenarioReference
-         identifier = "London, England"
-         referenceType = "1">
+         identifier = "../ios-weather-app/Zagreb.gpx"
+         referenceType = "0">
       </LocationScenarioReference>
    </LaunchAction>
    <ProfileAction
